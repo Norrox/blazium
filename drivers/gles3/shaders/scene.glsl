@@ -588,6 +588,8 @@ void main() {
 
 #define FLAGS_NON_UNIFORM_SCALE (1 << 4)
 
+#define FLAGS_NON_UNIFORM_SCALE (1 << 4)
+
 /* Varyings */
 
 #if defined(COLOR_USED)
@@ -1816,12 +1818,18 @@ void main() {
 		vec3 n = normalize(lightmap_normal_xform * normal);
 
 		ambient_light += lm_light_l0 * lightmap_exposure_normalization;
+<<<<<<< HEAD
 		ambient_light += lm_light_l1n1 * n.y * (lm_light_l0 * lightmap_exposure_normalization * 4.0);
 		ambient_light += lm_light_l1_0 * n.z * (lm_light_l0 * lightmap_exposure_normalization * 4.0);
 		ambient_light += lm_light_l1p1 * n.x * (lm_light_l0 * lightmap_exposure_normalization * 4.0);
 #else
 #ifdef LIGHTMAP_BICUBIC_FILTER
 		ambient_light += textureArray_bicubic(lightmap_textures, uvw, lightmap_texture_size).rgb * lightmap_exposure_normalization;
+=======
+		ambient_light += lm_light_l1n1 * n.y * lightmap_exposure_normalization;
+		ambient_light += lm_light_l1_0 * n.z * lightmap_exposure_normalization;
+		ambient_light += lm_light_l1p1 * n.x * lightmap_exposure_normalization;
+>>>>>>> fe559082795c8e0f733d66dd8b99633121e2533a
 #else
 		ambient_light += textureLod(lightmap_textures, uvw, 0.0).rgb * lightmap_exposure_normalization;
 #endif

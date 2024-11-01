@@ -5,8 +5,13 @@ on:
 # Global Settings
 env:
   # Used for the cache key. Add version suffix to force clean build.
+<<<<<<< HEAD
   GODOT_BASE_BRANCH: master
   SCONSFLAGS: verbose=yes warnings=extra werror=yes debug_symbols=no use_closure_compiler=yes strict_checks=yes
+=======
+  GODOT_BASE_BRANCH: blazium-dev
+  SCONSFLAGS: verbose=yes warnings=extra werror=yes debug_symbols=no use_closure_compiler=yes
+>>>>>>> fe559082795c8e0f733d66dd8b99633121e2533a
   EM_VERSION: 3.1.64
   EM_CACHE_FOLDER: "emsdk-cache"
 

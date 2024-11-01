@@ -5,8 +5,13 @@ on:
 # Global Settings
 env:
   # Used for the cache key. Add version suffix to force clean build.
+<<<<<<< HEAD
   GODOT_BASE_BRANCH: master
   SCONSFLAGS: verbose=yes warnings=extra werror=yes module_text_server_fb_enabled=yes strict_checks=yes
+=======
+  GODOT_BASE_BRANCH: blazium-dev
+  SCONSFLAGS: verbose=yes warnings=extra werror=yes module_text_server_fb_enabled=yes
+>>>>>>> fe559082795c8e0f733d66dd8b99633121e2533a
 
 concurrency:
   group: ci-${{github.actor}}-${{github.head_ref || github.run_number}}-${{github.ref}}-macos
@@ -24,14 +29,14 @@ jobs:
             cache-name: macos-editor
             target: editor
             tests: true
-            bin: "./bin/godot.macos.editor.universal"
+            bin: "./bin/blazium.macos.editor.universal"
 
           - name: Template (target=template_release)
             cache-name: macos-template
             target: template_release
             tests: true
             sconsflags: debug_symbols=no tests=yes
-            bin: "./bin/godot.macos.template_release.universal"
+            bin: "./bin/blazium.macos.template_release.universal"
 
     steps:
       - uses: actions/checkout@v4
@@ -75,10 +80,10 @@ jobs:
 
       - name: Prepare artifact
         run: |
-          lipo -create ./bin/godot.macos.${{ matrix.target }}.x86_64 ./bin/godot.macos.${{ matrix.target }}.arm64 -output ./bin/godot.macos.${{ matrix.target }}.universal
-          rm ./bin/godot.macos.${{ matrix.target }}.x86_64 ./bin/godot.macos.${{ matrix.target }}.arm64
-          strip bin/godot.*
-          chmod +x bin/godot.*
+          lipo -create ./bin/blazium.macos.${{ matrix.target }}.x86_64 ./bin/blazium.macos.${{ matrix.target }}.arm64 -output ./bin/blazium.macos.${{ matrix.target }}.universal
+          rm ./bin/blazium.macos.${{ matrix.target }}.x86_64 ./bin/blazium.macos.${{ matrix.target }}.arm64
+          strip bin/blazium.*
+          chmod +x bin/blazium.*
 
       - name: Upload artifact
         uses: ./.github/actions/upload-artifact

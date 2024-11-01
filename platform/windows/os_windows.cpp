@@ -433,10 +433,18 @@ Error OS_Windows::open_dynamic_library(const String &p_path, void *&p_library_ha
 	String dll_path = fix_path(load_path);
 	String dll_dir = fix_path(ProjectSettings::get_singleton()->globalize_path(load_path.get_base_dir()));
 	if (p_data != nullptr && p_data->also_set_library_path && has_dll_directory_api) {
+<<<<<<< HEAD
 		cookie = add_dll_directory((LPCWSTR)(dll_dir.utf16().get_data()));
 	}
 
 	p_library_handle = (void *)LoadLibraryExW((LPCWSTR)(dll_path.utf16().get_data()), nullptr, (p_data != nullptr && p_data->also_set_library_path && has_dll_directory_api) ? LOAD_LIBRARY_SEARCH_DEFAULT_DIRS : 0);
+=======
+		String dll_dir = ProjectSettings::get_singleton()->globalize_path(load_path.get_base_dir());
+		cookie = add_dll_directory((LPCWSTR)(dll_dir.utf16().get_data()));
+	}
+
+	p_library_handle = (void *)LoadLibraryExW((LPCWSTR)(load_path.utf16().get_data()), nullptr, (p_data != nullptr && p_data->also_set_library_path && has_dll_directory_api) ? LOAD_LIBRARY_SEARCH_DEFAULT_DIRS : 0);
+>>>>>>> fe559082795c8e0f733d66dd8b99633121e2533a
 	if (!p_library_handle) {
 		if (p_data != nullptr && p_data->generate_temp_files) {
 			DirAccess::remove_absolute(load_path);
@@ -447,7 +455,11 @@ Error OS_Windows::open_dynamic_library(const String &p_path, void *&p_library_ha
 
 		HashSet<String> checked_libs;
 		HashSet<String> missing_libs;
+<<<<<<< HEAD
 		debug_dynamic_library_check_dependencies(dll_path, checked_libs, missing_libs);
+=======
+		debug_dynamic_library_check_dependencies(load_path, load_path, checked_libs, missing_libs);
+>>>>>>> fe559082795c8e0f733d66dd8b99633121e2533a
 		if (!missing_libs.is_empty()) {
 			String missing;
 			for (const String &E : missing_libs) {

@@ -294,7 +294,9 @@ void EditorExportPlatformAndroid::_check_for_changes_poll_thread(void *ud) {
 
 		// Check for devices updates
 		String adb = get_adb_path();
-		if (ea->has_runnable_preset.is_set() && FileAccess::exists(adb)) {
+		// adb.exe was locking the editor_doc_cache file on startup. Adding a check for is_editor_ready provides just enough time
+		// to regenerate the doc cache.
+		if (ea->has_runnable_preset.is_set() && FileAccess::exists(adb) && EditorNode::get_singleton()->is_editor_ready()) {
 			String devices;
 			List<String> args;
 			args.push_back("devices");
@@ -1784,7 +1786,7 @@ String EditorExportPlatformAndroid::get_export_option_warning(const EditorExport
 				} else {
 					min_sdk_int = min_sdk_str.to_int();
 					if (min_sdk_int < OPENGL_MIN_SDK_VERSION) {
-						return vformat(TTR("\"Min SDK\" cannot be lower than %d, which is the version needed by the Godot library."), OPENGL_MIN_SDK_VERSION);
+						return vformat(TTR("\"Min SDK\" cannot be lower than %d, which is the version needed by the Blazium library."), OPENGL_MIN_SDK_VERSION);
 					}
 				}
 			}

@@ -110,6 +110,14 @@ struct EditorProgress {
 	~EditorProgress();
 };
 
+struct EditorProgress {
+	String task;
+	bool step(const String &p_state, int p_step = -1, bool p_force_refresh = true);
+
+	EditorProgress(const String &p_task, const String &p_label, int p_amount, bool p_can_cancel = false);
+	~EditorProgress();
+};
+
 class EditorNode : public Node {
 	GDCLASS(EditorNode, Node);
 

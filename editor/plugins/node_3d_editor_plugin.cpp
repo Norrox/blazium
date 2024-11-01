@@ -811,7 +811,11 @@ ObjectID Node3DEditorViewport::_select_ray(const Point2 &p_pos) const {
 	Vector<Node3D *> nodes_with_gizmos = Node3DEditor::get_singleton()->gizmo_bvh_ray_query(pos, pos + ray * camera->get_far());
 
 	for (Node3D *spat : nodes_with_gizmos) {
+<<<<<<< HEAD
 		if (!spat || _is_node_locked(spat)) {
+=======
+		if (!spat) {
+>>>>>>> fe559082795c8e0f733d66dd8b99633121e2533a
 			continue;
 		}
 
@@ -4073,6 +4077,7 @@ void Node3DEditorViewport::set_state(const Dictionary &p_state) {
 			_menu_option(VIEW_GIZMOS);
 		}
 	}
+<<<<<<< HEAD
 	if (p_state.has("transform_gizmo")) {
 		bool transform_gizmo = p_state["transform_gizmo"];
 
@@ -4081,6 +4086,8 @@ void Node3DEditorViewport::set_state(const Dictionary &p_state) {
 			_menu_option(VIEW_TRANSFORM_GIZMO);
 		}
 	}
+=======
+>>>>>>> fe559082795c8e0f733d66dd8b99633121e2533a
 	if (p_state.has("grid")) {
 		bool grid = p_state["grid"];
 
@@ -4167,7 +4174,10 @@ Dictionary Node3DEditorViewport::get_state() const {
 	d["listener"] = viewport->is_audio_listener_3d();
 	d["doppler"] = view_menu->get_popup()->is_item_checked(view_menu->get_popup()->get_item_index(VIEW_AUDIO_DOPPLER));
 	d["gizmos"] = view_menu->get_popup()->is_item_checked(view_menu->get_popup()->get_item_index(VIEW_GIZMOS));
+<<<<<<< HEAD
 	d["transform_gizmo"] = view_menu->get_popup()->is_item_checked(view_menu->get_popup()->get_item_index(VIEW_TRANSFORM_GIZMO));
+=======
+>>>>>>> fe559082795c8e0f733d66dd8b99633121e2533a
 	d["grid"] = view_menu->get_popup()->is_item_checked(view_menu->get_popup()->get_item_index(VIEW_GRID));
 	d["information"] = view_menu->get_popup()->is_item_checked(view_menu->get_popup()->get_item_index(VIEW_INFORMATION));
 	d["frame_time"] = view_menu->get_popup()->is_item_checked(view_menu->get_popup()->get_item_index(VIEW_FRAME_TIME));
@@ -6205,6 +6215,7 @@ Dictionary Node3DEditor::get_state() const {
 		pd["sun_rotation"] = sun_rotation;
 
 		pd["environ_sky_color"] = environ_sky_color->get_pick_color();
+		pd["environ_hz_color"] = environ_hz_color->get_pick_color();
 		pd["environ_ground_color"] = environ_ground_color->get_pick_color();
 		pd["environ_energy"] = environ_energy->get_value();
 		pd["environ_glow_enabled"] = environ_glow_button->is_pressed();
@@ -7961,6 +7972,7 @@ void Node3DEditor::_update_theme() {
 
 	sun_color->set_custom_minimum_size(Size2(0, get_theme_constant(SNAME("color_picker_button_height"), EditorStringName(Editor))));
 	environ_sky_color->set_custom_minimum_size(Size2(0, get_theme_constant(SNAME("color_picker_button_height"), EditorStringName(Editor))));
+	environ_hz_color->set_custom_minimum_size(Size2(0, get_theme_constant(SNAME("color_picker_button_height"), EditorStringName(Editor))));
 	environ_ground_color->set_custom_minimum_size(Size2(0, get_theme_constant(SNAME("color_picker_button_height"), EditorStringName(Editor))));
 
 	context_toolbar_panel->add_theme_style_override(SceneStringName(panel), get_theme_stylebox(SNAME("ContextualToolbar"), EditorStringName(EditorStyles)));
@@ -8457,7 +8469,7 @@ void Node3DEditor::_preview_settings_changed() {
 
 	{ //preview env
 		sky_material->set_sky_energy_multiplier(environ_energy->get_value());
-		Color hz_color = environ_sky_color->get_pick_color().lerp(environ_ground_color->get_pick_color(), 0.5).lerp(Color(1, 1, 1), 0.5);
+		Color hz_color = environ_sky_color->get_pick_color().lerp(environ_ground_color->get_pick_color(), 0.5).lerp(environ_hz_color->get_pick_color(), 0.5);
 		sky_material->set_sky_top_color(environ_sky_color->get_pick_color());
 		sky_material->set_sky_horizon_color(hz_color);
 		sky_material->set_ground_bottom_color(environ_ground_color->get_pick_color());
@@ -8484,8 +8496,9 @@ void Node3DEditor::_load_default_preview_settings() {
 	sun_angle_altitude->set_value(-Math::rad_to_deg(sun_rotation.x));
 	sun_angle_azimuth->set_value(180.0 - Math::rad_to_deg(sun_rotation.y));
 	sun_direction->queue_redraw();
-	environ_sky_color->set_pick_color(Color(0.385, 0.454, 0.55));
-	environ_ground_color->set_pick_color(Color(0.2, 0.169, 0.133));
+	environ_sky_color->set_pick_color(Color(0.141, 0.289, 0.447));
+	environ_hz_color->set_pick_color(Color(0.447, 0.443, 0.612));
+	environ_ground_color->set_pick_color(Color(0.333, 0.333, 0.333));
 	environ_energy->set_value(1.0);
 	if (OS::get_singleton()->get_current_rendering_method() != "gl_compatibility") {
 		environ_glow_button->set_pressed(true);
@@ -9137,6 +9150,11 @@ void fragment() {
 		environ_sky_color->connect("color_changed", callable_mp(this, &Node3DEditor::_preview_settings_changed).unbind(1));
 		environ_sky_color->get_popup()->connect("about_to_popup", callable_mp(EditorNode::get_singleton(), &EditorNode::setup_color_picker).bind(environ_sky_color->get_picker()));
 		environ_vb->add_margin_child(TTR("Sky Color"), environ_sky_color);
+		environ_hz_color = memnew(ColorPickerButton);
+		environ_hz_color->set_edit_alpha(false);
+		environ_hz_color->connect("color_changed", callable_mp(this, &Node3DEditor::_preview_settings_changed).unbind(1));
+		environ_hz_color->get_popup()->connect("about_to_popup", callable_mp(EditorNode::get_singleton(), &EditorNode::setup_color_picker).bind(environ_hz_color->get_picker()));
+		environ_vb->add_margin_child(TTR("Horizon Color"), environ_hz_color);
 		environ_ground_color = memnew(ColorPickerButton);
 		environ_ground_color->connect("color_changed", callable_mp(this, &Node3DEditor::_preview_settings_changed).unbind(1));
 		environ_ground_color->set_edit_alpha(false);

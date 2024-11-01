@@ -680,10 +680,27 @@ Error GDExtension::open_library(const String &p_path, const Ref<GDExtensionLoade
 
 	Error err = loader->open_library(p_path);
 
+<<<<<<< HEAD
 	ERR_FAIL_COND_V_MSG(err == ERR_FILE_NOT_FOUND, err, "GDExtension dynamic library not found: " + p_path);
 	ERR_FAIL_COND_V_MSG(err != OK, err, "Can't open GDExtension dynamic library: " + p_path);
 
 	err = loader->initialize(&gdextension_get_proc_address, this, &initialization);
+=======
+	OS::GDExtensionData data = {
+		true, // also_set_library_path
+		&library_path, // r_resolved_path
+		Engine::get_singleton()->is_editor_hint(), // generate_temp_files
+		&abs_dependencies_paths, // library_dependencies
+	};
+	Error err = OS::get_singleton()->open_dynamic_library(abs_path, library, &data);
+
+	ERR_FAIL_COND_V_MSG(err == ERR_FILE_NOT_FOUND, err, "GDExtension dynamic library not found: " + abs_path);
+	ERR_FAIL_COND_V_MSG(err != OK, err, "Can't open GDExtension dynamic library: " + abs_path);
+
+	void *entry_funcptr = nullptr;
+
+	err = OS::get_singleton()->get_dynamic_library_symbol_handle(library, p_entry_symbol, entry_funcptr, false);
+>>>>>>> fe559082795c8e0f733d66dd8b99633121e2533a
 
 	if (err != OK) {
 		// Errors already logged in initialize().

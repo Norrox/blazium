@@ -250,7 +250,7 @@ EditorThemeManager::ThemeConfiguration EditorThemeManager::_create_theme_config(
 	config.color_picker_button_height = 28 * EDSCALE;
 	config.subresource_hue_tint = EDITOR_GET("docks/property_editor/subresource_hue_tint");
 
-	config.default_contrast = 0.3; // Make sure to keep this in sync with the editor settings definition.
+	config.default_contrast = 0.24; // Make sure to keep this in sync with the editor settings definition.
 
 	// Handle main theme preset.
 	{
@@ -288,14 +288,22 @@ EditorThemeManager::ThemeConfiguration EditorThemeManager::_create_theme_config(
 				preset_accent_color = Color(0.26, 0.76, 1.00);
 				preset_base_color = Color(0.24, 0.26, 0.28);
 				preset_contrast = config.default_contrast;
+			} else if (config.preset == "Godot") {
+				preset_accent_color = Color(0.44, 0.73, 0.98);
+				preset_base_color = Color(0.21, 0.24, 0.29);
+				preset_contrast = 0.3;
 			} else if (config.preset == "Godot 2") {
 				preset_accent_color = Color(0.53, 0.67, 0.89);
 				preset_base_color = Color(0.24, 0.23, 0.27);
-				preset_contrast = config.default_contrast;
+				preset_contrast = 0.3;
 			} else if (config.preset == "Gray") {
 				preset_accent_color = Color(0.44, 0.73, 0.98);
 				preset_base_color = Color(0.24, 0.24, 0.24);
-				preset_contrast = config.default_contrast;
+				preset_contrast = 0.3;
+			} else if (config.preset == "Indigo") {
+				preset_accent_color = Color(0.37, 0.54, 0.91);
+				preset_base_color = Color(0.17, 0.17, 0.20);
+				preset_contrast = 0.4;
 			} else if (config.preset == "Light") {
 				preset_accent_color = Color(0.18, 0.50, 1.00);
 				preset_base_color = Color(0.9, 0.9, 0.9);
@@ -304,7 +312,7 @@ EditorThemeManager::ThemeConfiguration EditorThemeManager::_create_theme_config(
 			} else if (config.preset == "Solarized (Dark)") {
 				preset_accent_color = Color(0.15, 0.55, 0.82);
 				preset_base_color = Color(0.04, 0.23, 0.27);
-				preset_contrast = config.default_contrast;
+				preset_contrast = 0.3;
 			} else if (config.preset == "Solarized (Light)") {
 				preset_accent_color = Color(0.15, 0.55, 0.82);
 				preset_base_color = Color(0.89, 0.86, 0.79);
@@ -317,8 +325,8 @@ EditorThemeManager::ThemeConfiguration EditorThemeManager::_create_theme_config(
 				preset_contrast = 0.0;
 				preset_draw_extra_borders = true;
 			} else { // Default
-				preset_accent_color = Color(0.44, 0.73, 0.98);
-				preset_base_color = Color(0.21, 0.24, 0.29);
+				preset_base_color = Color(0.141, 0.157, 0.231);
+				preset_accent_color = Color(0.733, 0.604, 0.969);
 				preset_contrast = config.default_contrast;
 			}
 
@@ -1244,6 +1252,39 @@ void EditorThemeManager::_populate_standard_styles(const Ref<EditorTheme> &p_the
 		p_theme->set_constant("v_separation", "HFlowContainer", p_config.separation_margin);
 		p_theme->set_constant("h_separation", "VFlowContainer", p_config.separation_margin);
 		p_theme->set_constant("v_separation", "VFlowContainer", p_config.separation_margin);
+
+		// FoldableContainer
+
+		Ref<StyleBoxFlat> foldable_container_title = make_flat_stylebox(p_config.dark_color_1.darkened(0.125), 4, 4, 4, 4);
+		foldable_container_title->set_corner_radius(CORNER_BOTTOM_LEFT, 0);
+		foldable_container_title->set_corner_radius(CORNER_BOTTOM_RIGHT, 0);
+		p_theme->set_stylebox("title_panel", "FoldableContainer", foldable_container_title);
+		Ref<StyleBoxFlat> foldable_container_hover = make_flat_stylebox(p_config.dark_color_1.lerp(p_config.base_color, 0.4), 4, 4, 4, 4);
+		foldable_container_hover->set_corner_radius(CORNER_BOTTOM_LEFT, 0);
+		foldable_container_hover->set_corner_radius(CORNER_BOTTOM_RIGHT, 0);
+		p_theme->set_stylebox("title_hover_panel", "FoldableContainer", foldable_container_hover);
+		p_theme->set_stylebox("title_collapsed_panel", "FoldableContainer", make_flat_stylebox(p_config.dark_color_1.darkened(0.125), 4, 4, 4, 4));
+		p_theme->set_stylebox("title_collapsed_hover_panel", "FoldableContainer", make_flat_stylebox(p_config.dark_color_1.lerp(p_config.base_color, 0.4), 4, 4, 4, 4));
+		Ref<StyleBoxFlat> foldable_container_panel = make_flat_stylebox(p_config.dark_color_1, 18, 4, 4, 4);
+		foldable_container_panel->set_corner_radius(CORNER_TOP_LEFT, 0);
+		foldable_container_panel->set_corner_radius(CORNER_TOP_RIGHT, 0);
+		p_theme->set_stylebox(SceneStringName(panel), "FoldableContainer", foldable_container_panel);
+		p_theme->set_stylebox("focus", "FoldableContainer", p_config.button_style_focus);
+
+		p_theme->set_font(SceneStringName(font), "FoldableContainer", p_theme->get_font(SceneStringName(font), SNAME("HeaderSmall")));
+		p_theme->set_font_size(SceneStringName(font_size), "FoldableContainer", p_theme->get_font_size(SceneStringName(font_size), SNAME("HeaderSmall")));
+
+		p_theme->set_color(SceneStringName(font_color), "FoldableContainer", p_config.font_color);
+		p_theme->set_color("hover_font_color", "FoldableContainer", p_config.font_hover_color);
+		p_theme->set_color("collapsed_font_color", "FoldableContainer", p_config.font_pressed_color);
+		p_theme->set_color("font_outline_color", "FoldableContainer", Color(1, 1, 1));
+
+		p_theme->set_icon("arrow", "FoldableContainer", p_theme->get_icon(SNAME("GuiTreeArrowDown"), EditorStringName(EditorIcons)));
+		p_theme->set_icon("arrow_collapsed", "FoldableContainer", p_theme->get_icon(SNAME("GuiTreeArrowRight"), EditorStringName(EditorIcons)));
+		p_theme->set_icon("arrow_collapsed_mirrored", "FoldableContainer", p_theme->get_icon(SNAME("GuiTreeArrowLeft"), EditorStringName(EditorIcons)));
+
+		p_theme->set_constant("outline_size", "FoldableContainer", 0);
+		p_theme->set_constant("h_separation", "FoldableContainer", p_config.separation_margin);
 
 		// SplitContainer.
 

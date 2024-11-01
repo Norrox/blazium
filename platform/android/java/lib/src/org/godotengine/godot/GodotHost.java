@@ -136,6 +136,7 @@ public interface GodotHost {
 	default Error verifyApk(@NonNull String apkPath) {
 		return Error.ERR_UNAVAILABLE;
 	}
+<<<<<<< HEAD
 
 	/**
 	 * Returns whether the given feature tag is supported.
@@ -145,4 +146,6 @@ public interface GodotHost {
 	default boolean supportsFeature(String featureTag) {
 		return false;
 	}
+=======
+>>>>>>> fe559082795c8e0f733d66dd8b99633121e2533a
 }

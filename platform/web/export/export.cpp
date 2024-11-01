@@ -40,7 +40,10 @@ void register_web_exporter_types() {
 }
 
 void register_web_exporter() {
+<<<<<<< HEAD
 	// TODO: Move to editor_settings.cpp
+=======
+>>>>>>> fe559082795c8e0f733d66dd8b99633121e2533a
 	EDITOR_DEF("export/web/http_host", "localhost");
 	EDITOR_DEF("export/web/http_port", 8060);
 	EDITOR_DEF("export/web/use_tls", false);

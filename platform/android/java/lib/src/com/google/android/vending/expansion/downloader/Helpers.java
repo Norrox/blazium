@@ -24,10 +24,10 @@ import android.os.StatFs;
 import android.os.SystemClock;
 import android.util.Log;
 
-// -- GODOT start --
+// -- BLAZIUM start --
 //import com.android.vending.expansion.downloader.R;
 import org.godotengine.godot.R;
-// -- GODOT end --
+// -- BLAZIUM end --
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -128,7 +128,10 @@ public class Helpers {
             File file = new File(path);
             file.delete();
         } catch (Exception e) {
-            Log.w(Constants.TAG, "file: '" + path + "' couldn't be deleted", e);
+            StringBuilder logData = new StringBuilder("file: '");
+            logData.append(path);
+            logData.append("' couldn't be deleted");
+            Log.w(Constants.TAG, logData.toString(), e);
         }
     }
 
@@ -149,14 +152,14 @@ public class Helpers {
             }
             return "";
         }
-        // -- GODOT start --
+        // -- BLAZIUM start --
         return String.format(Locale.ENGLISH, "%.2f",
                 (float) overallProgress / (1024.0f * 1024.0f))
                 + "MB /" +
                 String.format(Locale.ENGLISH, "%.2f", (float) overallTotal /
                         (1024.0f * 1024.0f))
                 + "MB";
-        // -- GODOT end --
+        // -- BLAZIUM end --
     }
 
     /**
@@ -189,9 +192,9 @@ public class Helpers {
     }
 
     public static String getSpeedString(float bytesPerMillisecond) {
-        // -- GODOT start --
+        // -- BLAZIUM start --
         return String.format(Locale.ENGLISH, "%.2f", bytesPerMillisecond * 1000 / 1024);
-        // -- GODOT end --
+        // -- BLAZIUM end --
     }
 
     public static String getTimeRemaining(long durationInMilliseconds) {
@@ -220,9 +223,11 @@ public class Helpers {
      * Returns the filename (where the file should be saved) from info about a download
      */
     static public String generateSaveFileName(Context c, String fileName) {
-        String path = getSaveFilePath(c)
-                + File.separator + fileName;
-        return path;
+        StringBuilder path = new StringBuilder();
+        path.append(getSaveFilePath(c));
+        path.append(File.separator);
+        path.append(fileName);
+        return path.toString();
     }
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
@@ -234,8 +239,11 @@ public class Helpers {
             return c.getObbDir().toString();
         } else {
             File root = Environment.getExternalStorageDirectory();
-            String path = root.toString() + Constants.EXP_PATH + c.getPackageName();
-            return path;
+            StringBuilder path = new StringBuilder();
+            path.append(root.toString());
+            path.append(Constants.EXP_PATH);
+            path.append(c.getPackageName());
+            return path.toString();
         }
     }
 

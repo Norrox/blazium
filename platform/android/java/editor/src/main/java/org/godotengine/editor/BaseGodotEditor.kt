@@ -158,7 +158,6 @@ abstract class BaseGodotEditor : GodotActivity() {
 		if (BuildConfig.BUILD_TYPE == "dev" && WAIT_FOR_DEBUGGER) {
 			Debug.waitForDebugger()
 		}
-
 		super.onCreate(savedInstanceState)
 	}
 
@@ -328,7 +327,7 @@ abstract class BaseGodotEditor : GodotActivity() {
 		for (runningProcess in runningProcesses) {
 			if (runningProcess.processName == processName) {
 				// Killing process directly
-				Log.v(TAG, "Killing Godot process ${runningProcess.processName}")
+				Log.v(TAG, "Killing Blazium process ${runningProcess.processName}")
 				Process.killProcess(runningProcess.pid)
 				return true
 			}
@@ -511,6 +510,7 @@ abstract class BaseGodotEditor : GodotActivity() {
 		val godot = godot ?: return Error.ERR_UNCONFIGURED
 		return verifyApk(godot.fileAccessHandler, apkPath)
 	}
+<<<<<<< HEAD
 
 	override fun supportsFeature(featureTag: String): Boolean {
 		if (featureTag == "xr_editor") {
@@ -519,4 +519,6 @@ abstract class BaseGodotEditor : GodotActivity() {
 
         return false
     }
+=======
+>>>>>>> fe559082795c8e0f733d66dd8b99633121e2533a
 }

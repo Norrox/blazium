@@ -501,6 +501,7 @@ public class GodotFragment extends Fragment implements IDownloaderClient, GodotH
 		}
 		return Error.ERR_UNAVAILABLE;
 	}
+<<<<<<< HEAD
 
 	@Override
 	public boolean supportsFeature(String featureTag) {
@@ -509,4 +510,6 @@ public class GodotFragment extends Fragment implements IDownloaderClient, GodotH
 		}
 		return false;
 	}
+=======
+>>>>>>> fe559082795c8e0f733d66dd8b99633121e2533a
 }

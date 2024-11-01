@@ -251,13 +251,13 @@ Files extracted from upstream source:
   * Upstream: https://github.com/JetBrains/JetBrainsMono
   * Version: 2.304 (cd5227bd1f61dff3bbd6c814ceaf7ffd95e947d9, 2023)
   * License: OFL-1.1
+- `Inter*.woff2`:
+  * Upstream: https://github.com/rsms/inter
+  * Version: 4.0 (2ce9119398be143fa289c3e180824db1b7ed803e, 2023)
+  * License: OFL-1.1
 - `NotoNaskhArabicUI*.woff2`:
   * Upstream: https://github.com/notofonts/arabic
   * Version: 2.014 (133ccaebf922ca080a7eef22998611ac3c242df9, 2022)
-  * License: OFL-1.1
-- `NotoSans*.woff2`:
-  * Upstream: https://github.com/notofonts/latin-greek-cyrillic
-  * Version: 2.012 (9ea0c8d37bff0c0067b03777f40aa04f2bf78f99, 2023)
   * License: OFL-1.1
 - `NotoSansBengali*.woff2`:
   * Upstream: https://github.com/notofonts/bengali
@@ -388,7 +388,7 @@ Files extracted from upstream source:
 ## harfbuzz
 
 - Upstream: https://github.com/harfbuzz/harfbuzz
-- Version: 8.5.0 (30485ee8c3d43c553afb9d78b9924cb71c8d2f19, 2024)
+- Version: 10.0.1 (a1d9bfe62818ef0fa9cf63b6e6d51436b1c93cbc, 2024)
 - License: MIT
 
 Files extracted from upstream source:
@@ -907,7 +907,11 @@ instead of `miniz.h` as an external dependency.
 ## thorvg
 
 - Upstream: https://github.com/thorvg/thorvg
+<<<<<<< HEAD
 - Version: 0.14.9 (81a0fbfd590873b21e53c3af77969c71d3d9b586, 2024)
+=======
+- Version: 0.14.10 (366dcd72850c360b49e841e568fc5a154d7cce9e, 2024)
+>>>>>>> fe559082795c8e0f733d66dd8b99633121e2533a
 - License: MIT
 
 Files extracted from upstream source:

@@ -60,6 +60,8 @@ class EditorFileSystemDirectory : public Object {
 		ResourceUID::ID uid = ResourceUID::INVALID_ID;
 		uint64_t modified_time = 0;
 		uint64_t import_modified_time = 0;
+		String import_md5;
+		Vector<String> import_dest_paths;
 		bool import_valid = false;
 		String import_group_file;
 		Vector<String> deps;
@@ -206,6 +208,8 @@ class EditorFileSystem : public Node {
 		ResourceUID::ID uid = ResourceUID::INVALID_ID;
 		uint64_t modification_time = 0;
 		uint64_t import_modification_time = 0;
+		String import_md5;
+		Vector<String> import_dest_paths;
 		Vector<String> deps;
 		bool import_valid = false;
 		String import_group_file;
@@ -222,6 +226,12 @@ class EditorFileSystem : public Node {
 		int current = 0;
 		EditorProgressBG *progress = nullptr;
 		void increment();
+	};
+
+	struct DirectoryComparator {
+		bool operator()(const EditorFileSystemDirectory *p_a, const EditorFileSystemDirectory *p_b) const {
+			return p_a->name.filenocasecmp_to(p_b->name) < 0;
+		}
 	};
 
 	void _save_filesystem_cache();
@@ -258,7 +268,9 @@ class EditorFileSystem : public Node {
 	Error _reimport_file(const String &p_file, const HashMap<StringName, Variant> &p_custom_options = HashMap<StringName, Variant>(), const String &p_custom_importer = String(), Variant *generator_parameters = nullptr, bool p_update_file_system = true);
 	Error _reimport_group(const String &p_group_file, const Vector<String> &p_files);
 
-	bool _test_for_reimport(const String &p_path, bool p_only_imported_files);
+	bool _test_for_reimport(const String &p_path, const String &p_expected_import_md5);
+	bool _is_test_for_reimport_needed(const String &p_path, uint64_t p_last_modification_time, uint64_t p_modification_time, uint64_t p_last_import_modification_time, uint64_t p_import_modification_time, const Vector<String> &p_import_dest_paths);
+	Vector<String> _get_import_dest_paths(const String &p_path);
 
 	bool reimport_on_missing_imported_files;
 
@@ -363,6 +375,8 @@ public:
 
 	bool is_group_file(const String &p_path) const;
 	void move_group_file(const String &p_path, const String &p_new_path);
+
+	void add_new_directory(const String &p_path);
 
 	static bool _should_skip_directory(const String &p_path);
 

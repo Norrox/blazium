@@ -542,6 +542,7 @@ void DisplayServerWindows::_thread_fd_monitor(void *p_ud) {
 		pfd->SetOptions(flags | FOS_FORCEFILESYSTEM);
 		pfd->SetTitle((LPCWSTR)fd->title.utf16().ptr());
 
+<<<<<<< HEAD
 		String dir = ProjectSettings::get_singleton()->globalize_path(fd->current_directory);
 		if (dir == ".") {
 			dir = OS::get_singleton()->get_executable_path().get_base_dir();
@@ -562,6 +563,9 @@ void DisplayServerWindows::_thread_fd_monitor(void *p_ud) {
 		if (!dir.is_network_share_path() && !dir.begins_with(R"(\\?\)")) {
 			dir = R"(\\?\)" + dir;
 		}
+=======
+		String dir = fd->current_directory.replace("/", "\\");
+>>>>>>> fe559082795c8e0f733d66dd8b99633121e2533a
 
 		IShellItem *shellitem = nullptr;
 		hr = SHCreateItemFromParsingName((LPCWSTR)dir.utf16().ptr(), nullptr, IID_IShellItem, (void **)&shellitem);
@@ -698,7 +702,11 @@ Error DisplayServerWindows::_file_dialog_with_options_show(const String &p_title
 	}
 	String appname;
 	if (Engine::get_singleton()->is_editor_hint()) {
+<<<<<<< HEAD
 		appname = "Godot.GodotEditor." + String(VERSION_BRANCH);
+=======
+		appname = "Blazium.GodotEditor." + String(VERSION_BRANCH);
+>>>>>>> fe559082795c8e0f733d66dd8b99633121e2533a
 	} else {
 		String name = GLOBAL_GET("application/config/name");
 		String version = GLOBAL_GET("application/config/version");
@@ -712,7 +720,11 @@ Error DisplayServerWindows::_file_dialog_with_options_show(const String &p_title
 			}
 		}
 		clean_app_name = clean_app_name.substr(0, 120 - version.length()).trim_suffix(".");
+<<<<<<< HEAD
 		appname = "Godot." + clean_app_name + "." + version;
+=======
+		appname = "Blazium." + clean_app_name + "." + version;
+>>>>>>> fe559082795c8e0f733d66dd8b99633121e2533a
 	}
 
 	FileDialogData *fd = memnew(FileDialogData);
@@ -1407,7 +1419,7 @@ void DisplayServerWindows::screen_set_keep_on(bool p_enable) {
 	}
 
 	if (p_enable) {
-		const String reason = "Godot Engine running with display/window/energy_saving/keep_screen_on = true";
+		const String reason = "Blazium Engine running with display/window/energy_saving/keep_screen_on = true";
 		Char16String reason_utf16 = reason.utf16();
 
 		REASON_CONTEXT context;
@@ -5744,7 +5756,7 @@ DisplayServer::WindowID DisplayServerWindows::_create_window(WindowMode p_mode, 
 			PROPVARIANT val;
 			String appname;
 			if (Engine::get_singleton()->is_editor_hint()) {
-				appname = "Godot.GodotEditor." + String(VERSION_FULL_CONFIG);
+				appname = "Blazium.GodotEditor." + String(VERSION_FULL_CONFIG);
 			} else {
 				String name = GLOBAL_GET("application/config/name");
 				String version = GLOBAL_GET("application/config/version");
@@ -5758,7 +5770,7 @@ DisplayServer::WindowID DisplayServerWindows::_create_window(WindowMode p_mode, 
 					}
 				}
 				clean_app_name = clean_app_name.substr(0, 120 - version.length()).trim_suffix(".");
-				appname = "Godot." + clean_app_name + "." + version;
+				appname = "Blazium." + clean_app_name + "." + version;
 			}
 			InitPropVariantFromString((PCWSTR)appname.utf16().get_data(), &val);
 			prop_store->SetValue(PKEY_AppUserModel_ID, val);
@@ -6297,7 +6309,7 @@ DisplayServerWindows::DisplayServerWindows(const String &p_rendering_driver, Win
 #endif
 	String appname;
 	if (Engine::get_singleton()->is_editor_hint()) {
-		appname = "Godot.GodotEditor." + String(VERSION_FULL_CONFIG);
+		appname = "Blazium.GodotEditor." + String(VERSION_FULL_CONFIG);
 	} else {
 		String name = GLOBAL_GET("application/config/name");
 		String version = GLOBAL_GET("application/config/version");
@@ -6311,7 +6323,7 @@ DisplayServerWindows::DisplayServerWindows(const String &p_rendering_driver, Win
 			}
 		}
 		clean_app_name = clean_app_name.substr(0, 120 - version.length()).trim_suffix(".");
-		appname = "Godot." + clean_app_name + "." + version;
+		appname = "Blazium." + clean_app_name + "." + version;
 
 #ifndef TOOLS_ENABLED
 		// Set for exported projects only.

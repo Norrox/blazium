@@ -273,9 +273,13 @@ Vector<OpenXRExtensionWrapper *> OpenXRAPI::registered_extension_wrappers;
 bool OpenXRAPI::openxr_is_enabled(bool p_check_run_in_editor) {
 	if (XRServer::get_xr_mode() == XRServer::XRMODE_DEFAULT) {
 		if (Engine::get_singleton()->is_editor_hint() && p_check_run_in_editor) {
+<<<<<<< HEAD
 			// For now, don't start OpenXR when the editor starts up. In the future, this may change
 			// if we want to integrate more XR features into the editor experience.
 			return false;
+=======
+			return GLOBAL_GET("xr/openxr/enabled.editor");
+>>>>>>> fe559082795c8e0f733d66dd8b99633121e2533a
 		} else {
 			return GLOBAL_GET("xr/openxr/enabled");
 		}
@@ -558,9 +562,15 @@ bool OpenXRAPI::create_instance() {
 
 	// Create our OpenXR instance
 	XrApplicationInfo application_info{
+<<<<<<< HEAD
 		"Godot Engine", // applicationName, if we're running a game we'll update this down below.
 		1, // applicationVersion, we don't currently have this
 		"Godot Engine", // engineName
+=======
+		"Blazium Engine", // applicationName, if we're running a game we'll update this down below.
+		1, // applicationVersion, we don't currently have this
+		"Blazium Engine", // engineName
+>>>>>>> fe559082795c8e0f733d66dd8b99633121e2533a
 		VERSION_MAJOR * 10000 + VERSION_MINOR * 100 + VERSION_PATCH, // engineVersion 4.0 -> 40000, 4.0.1 -> 40001, 4.1 -> 40100, etc.
 		XR_API_VERSION_1_0 // apiVersion
 	};

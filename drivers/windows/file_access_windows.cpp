@@ -445,7 +445,10 @@ uint64_t FileAccessWindows::_get_modified_time(const String &p_file) {
 		}
 	}
 
+<<<<<<< HEAD
 	print_verbose("Failed to get modified time for: " + p_file);
+=======
+>>>>>>> fe559082795c8e0f733d66dd8b99633121e2533a
 	return 0;
 }
 

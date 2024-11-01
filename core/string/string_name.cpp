@@ -39,6 +39,7 @@ StaticCString StaticCString::create(const char *p_ptr) {
 	return scs;
 }
 
+<<<<<<< HEAD
 bool StringName::_Data::operator==(const String &p_name) const {
 	if (cname) {
 		return p_name == cname;
@@ -63,6 +64,8 @@ bool StringName::_Data::operator!=(const char *p_name) const {
 	return !operator==(p_name);
 }
 
+=======
+>>>>>>> fe559082795c8e0f733d66dd8b99633121e2533a
 StringName _scs_create(const char *p_chr, bool p_static) {
 	return (p_chr[0] ? StringName(StaticCString::create(p_chr), p_static) : StringName());
 }

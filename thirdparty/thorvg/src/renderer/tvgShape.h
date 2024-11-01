@@ -51,8 +51,11 @@ struct Shape::Impl
 
     bool render(RenderMethod* renderer)
     {
+        if (!rd) return false;
+
         Compositor* cmp = nullptr;
-        bool ret;
+
+        renderer->blend(shape->blend());
 
         renderer->blend(shape->blend(), !needComp);
 
@@ -61,7 +64,11 @@ struct Shape::Impl
             renderer->beginComposite(cmp, CompositeMethod::None, opacity);
         }
 
+<<<<<<< HEAD
         ret = renderer->renderShape(rd);
+=======
+        auto ret = renderer->renderShape(rd);
+>>>>>>> fe559082795c8e0f733d66dd8b99633121e2533a
         if (cmp) renderer->endComposite(cmp);
         return ret;
     }
@@ -117,6 +124,7 @@ struct Shape::Impl
 
     RenderRegion bounds(RenderMethod* renderer)
     {
+        if (!rd) return {0, 0, 0, 0};
         return renderer->region(rd);
     }
 

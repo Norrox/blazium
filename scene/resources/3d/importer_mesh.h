@@ -118,7 +118,11 @@ public:
 
 	void optimize_indices_for_cache();
 
+<<<<<<< HEAD
 	void generate_lods(float p_normal_merge_angle, float p_normal_split_angle, Array p_skin_pose_transform_array, bool p_raycast_normals = false);
+=======
+	void generate_lods(float p_normal_merge_angle, float p_normal_split_angle, Array p_skin_pose_transform_array);
+>>>>>>> fe559082795c8e0f733d66dd8b99633121e2533a
 
 	void create_shadow_mesh();
 	Ref<ImporterMesh> get_shadow_mesh() const;

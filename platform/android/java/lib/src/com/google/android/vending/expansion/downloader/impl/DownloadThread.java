@@ -54,10 +54,13 @@ public class DownloadThread {
         mService = service;
         mNotification = notification;
         mDB = DownloadsDB.getDB(service);
-        mUserAgent = "APKXDL (Linux; U; Android " + android.os.Build.VERSION.RELEASE + ";"
-                + Locale.getDefault().toString() + "; " + android.os.Build.DEVICE + "/"
-                + android.os.Build.ID + ")" +
-                service.getPackageName();
+        StringBuffer mUserAgentBuffer = new StringBuffer("APKXDL (Linux; U; Android ");
+        mUserAgentBuffer.append(android.os.Build.VERSION.RELEASE).append(";");
+        mUserAgentBuffer.append(Locale.getDefault().toString());
+        mUserAgentBuffer.append("; ").append(android.os.Build.DEVICE).append("/");
+        mUserAgentBuffer.append(android.os.Build.ID).append(")");
+        mUserAgentBuffer.append(service.getPackageName());
+        mUserAgent = mUserAgentBuffer.toString();
     }
 
     /**
@@ -146,12 +149,12 @@ public class DownloadThread {
 
         try {
             PowerManager pm = (PowerManager) mContext.getSystemService(Context.POWER_SERVICE);
-            // -- GODOT start --
+            // -- BLAZIUM start --
             //wakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, Constants.TAG);
             //wakeLock.acquire();
             wakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "org.godot.game:wakelock");
             wakeLock.acquire(20 * 60 * 1000L /*20 minutes*/);
-            // -- GODOT end --
+            // -- BLAZIUM end --
 
             if (Constants.LOGV) {
                 Log.v(Constants.TAG, "initiating download for " + mInfo.mFileName);

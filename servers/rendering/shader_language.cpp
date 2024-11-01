@@ -8599,6 +8599,11 @@ Error ShaderLanguage::_parse_block(BlockNode *p_block, const FunctionInfo &p_fun
 						_set_error(vformat(RTR("Expected expression, found: '%s'."), get_token_text(tk)));
 						return ERR_PARSE_ERROR;
 					}
+					tk = _peek();
+					if (tk.type == TK_SEMICOLON) {
+						_set_error(vformat(RTR("Expected expression, found: '%s'."), get_token_text(tk)));
+						return ERR_PARSE_ERROR;
+					}
 					continue;
 				}
 				if (tk.type != TK_SEMICOLON) {

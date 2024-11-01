@@ -5,8 +5,13 @@ on:
 # Global Settings
 env:
   # Used for the cache key. Add version suffix to force clean build.
+<<<<<<< HEAD
   GODOT_BASE_BRANCH: master
   SCONSFLAGS: verbose=yes warnings=extra werror=yes debug_symbols=no module_text_server_fb_enabled=yes strict_checks=yes
+=======
+  GODOT_BASE_BRANCH: blazium-dev
+  SCONSFLAGS: verbose=yes warnings=extra werror=yes debug_symbols=no module_text_server_fb_enabled=yes
+>>>>>>> fe559082795c8e0f733d66dd8b99633121e2533a
 
 concurrency:
   group: ci-${{github.actor}}-${{github.head_ref || github.run_number}}-${{github.ref}}-ios

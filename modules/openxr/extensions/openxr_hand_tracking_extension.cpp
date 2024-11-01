@@ -300,6 +300,7 @@ void OpenXRHandTrackingExtension::on_process() {
 						if (location.locationFlags & XR_SPACE_LOCATION_POSITION_VALID_BIT) {
 							XrHandTrackingDataSourceStateEXT &data_source = hand_trackers[i].data_source;
 
+<<<<<<< HEAD
 							XRHandTracker::HandTrackingSource source = XRHandTracker::HAND_TRACKING_SOURCE_UNKNOWN;
 							if (hand_tracking_source_ext) {
 								if (!data_source.isActive) {
@@ -315,6 +316,10 @@ void OpenXRHandTrackingExtension::on_process() {
 								}
 							}
 							godot_tracker->set_hand_tracking_source(source);
+=======
+						godot_tracker->set_hand_tracking_source(source);
+						if (location.locationFlags & XR_SPACE_LOCATION_POSITION_VALID_BIT) {
+>>>>>>> fe559082795c8e0f733d66dd8b99633121e2533a
 							godot_tracker->set_has_tracking_data(true);
 							godot_tracker->set_pose("default", transform, linear_velocity, angular_velocity);
 						} else {

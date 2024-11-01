@@ -177,7 +177,11 @@ static const String REMOVE_ANDROID_BUILD_TEMPLATE_MESSAGE = "The Android build t
 static const String INSTALL_ANDROID_BUILD_TEMPLATE_MESSAGE = "This will set up your project for gradle Android builds by installing the source template to \"%s\".\nNote that in order to make gradle builds instead of using pre-built APKs, the \"Use Gradle Build\" option should be enabled in the Android export preset.";
 
 bool EditorProgress::step(const String &p_state, int p_step, bool p_force_refresh) {
+<<<<<<< HEAD
 	if (!force_background && Thread::is_main_thread()) {
+=======
+	if (Thread::is_main_thread()) {
+>>>>>>> fe559082795c8e0f733d66dd8b99633121e2533a
 		return EditorNode::progress_task_step(task, p_state, p_step, p_force_refresh);
 	} else {
 		EditorNode::progress_task_step_bg(task, p_step);
@@ -185,18 +189,30 @@ bool EditorProgress::step(const String &p_state, int p_step, bool p_force_refres
 	}
 }
 
+<<<<<<< HEAD
 EditorProgress::EditorProgress(const String &p_task, const String &p_label, int p_amount, bool p_can_cancel, bool p_force_background) {
 	if (!p_force_background && Thread::is_main_thread()) {
+=======
+EditorProgress::EditorProgress(const String &p_task, const String &p_label, int p_amount, bool p_can_cancel) {
+	if (Thread::is_main_thread()) {
+>>>>>>> fe559082795c8e0f733d66dd8b99633121e2533a
 		EditorNode::progress_add_task(p_task, p_label, p_amount, p_can_cancel);
 	} else {
 		EditorNode::progress_add_task_bg(p_task, p_label, p_amount);
 	}
 	task = p_task;
+<<<<<<< HEAD
 	force_background = p_force_background;
 }
 
 EditorProgress::~EditorProgress() {
 	if (!force_background && Thread::is_main_thread()) {
+=======
+}
+
+EditorProgress::~EditorProgress() {
+	if (Thread::is_main_thread()) {
+>>>>>>> fe559082795c8e0f733d66dd8b99633121e2533a
 		EditorNode::progress_end_task(task);
 	} else {
 		EditorNode::progress_end_task_bg(task);
@@ -675,8 +691,11 @@ void EditorNode::_notification(int p_what) {
 			last_system_accent_color = DisplayServer::get_singleton()->get_accent_color();
 			last_system_base_color = DisplayServer::get_singleton()->get_base_color();
 			DisplayServer::get_singleton()->set_system_theme_change_callback(callable_mp(this, &EditorNode::_check_system_theme_changed));
+<<<<<<< HEAD
 
 			get_viewport()->connect("size_changed", callable_mp(this, &EditorNode::_viewport_resized));
+=======
+>>>>>>> fe559082795c8e0f733d66dd8b99633121e2533a
 
 			/* DO NOT LOAD SCENES HERE, WAIT FOR FILE SCANNING AND REIMPORT TO COMPLETE */
 		} break;
@@ -3135,29 +3154,29 @@ void EditorNode::_menu_option_confirm(int p_option, bool p_confirmed) {
 			OS::get_singleton()->shell_open(VERSION_DOCS_URL "/");
 		} break;
 		case HELP_FORUM: {
-			OS::get_singleton()->shell_open("https://forum.godotengine.org/");
+			OS::get_singleton()->shell_open("https://chat.blazium.app");
 		} break;
 		case HELP_REPORT_A_BUG: {
-			OS::get_singleton()->shell_open("https://github.com/godotengine/godot/issues");
+			OS::get_singleton()->shell_open("https://github.com/blazium-engine/blazium/issues");
 		} break;
 		case HELP_COPY_SYSTEM_INFO: {
 			String info = _get_system_info();
 			DisplayServer::get_singleton()->clipboard_set(info);
 		} break;
 		case HELP_SUGGEST_A_FEATURE: {
-			OS::get_singleton()->shell_open("https://github.com/godotengine/godot-proposals#readme");
+			OS::get_singleton()->shell_open("https://chat.blazium.app");
 		} break;
 		case HELP_SEND_DOCS_FEEDBACK: {
-			OS::get_singleton()->shell_open("https://github.com/godotengine/godot-docs/issues");
+			OS::get_singleton()->shell_open("https://github.com/blazium-engine/blazium-docs/issues");
 		} break;
 		case HELP_COMMUNITY: {
-			OS::get_singleton()->shell_open("https://godotengine.org/community");
+			OS::get_singleton()->shell_open("https://chat.blazium.app");
 		} break;
 		case HELP_ABOUT: {
 			about->popup_centered(Size2(780, 500) * EDSCALE);
 		} break;
 		case HELP_SUPPORT_GODOT_DEVELOPMENT: {
-			OS::get_singleton()->shell_open("https://godotengine.org/donate");
+			OS::get_singleton()->shell_open("https://chat.blazium.app");
 		} break;
 		case SET_RENDERER_NAME_SAVE_AND_RESTART: {
 			ProjectSettings::get_singleton()->set("rendering/renderer/rendering_method", renderer_request);
@@ -3880,6 +3899,7 @@ Error EditorNode::load_scene(const String &p_scene, bool p_ignore_broken_deps, b
 
 	int prev = editor_data.get_edited_scene();
 	int idx = prev;
+	bool replacing_empty_scene = false;
 
 	if (prev == -1 || editor_data.get_edited_scene_root() || !editor_data.get_scene_path(prev).is_empty()) {
 		idx = editor_data.add_edited_scene(-1);
@@ -3890,7 +3910,12 @@ Error EditorNode::load_scene(const String &p_scene, bool p_ignore_broken_deps, b
 			_set_current_scene(idx);
 		}
 	} else {
+<<<<<<< HEAD
 		EditorUndoRedoManager::get_singleton()->clear_history(editor_data.get_current_edited_scene_history_id(), false);
+=======
+		EditorUndoRedoManager::get_singleton()->clear_history(false, editor_data.get_current_edited_scene_history_id());
+		replacing_empty_scene = true;
+>>>>>>> fe559082795c8e0f733d66dd8b99633121e2533a
 	}
 
 	dependency_errors.clear();
@@ -4022,6 +4047,11 @@ Error EditorNode::load_scene(const String &p_scene, bool p_ignore_broken_deps, b
 	_update_title();
 	scene_tabs->update_scene_tabs();
 	_add_to_recent_scenes(lpath);
+
+	if (replacing_empty_scene && !restoring_scenes) {
+		editor_data.notify_edited_scene_changed();
+		emit_signal(SNAME("scene_changed"));
+	}
 
 	return OK;
 }
@@ -4855,7 +4885,7 @@ String EditorNode::_get_system_info() const {
 	}
 	const String distribution_version = OS::get_singleton()->get_version();
 
-	String godot_version = "Godot v" + String(VERSION_FULL_CONFIG);
+	String godot_version = "Blazium v" + String(VERSION_FULL_CONFIG);
 	if (String(VERSION_BUILD) != "official") {
 		String hash = String(VERSION_HASH);
 		hash = hash.is_empty() ? String("unknown") : vformat("(%s)", hash.left(9));
@@ -5160,7 +5190,24 @@ void EditorNode::_load_editor_layout() {
 
 		ep.step(TTR("Editor layout ready."), 5, true);
 	}
+<<<<<<< HEAD
 	load_editor_layout_done = true;
+=======
+
+	ep.step(TTR("Loading docks..."), 1, true);
+	editor_dock_manager->load_docks_from_config(config, "docks");
+
+	ep.step(TTR("Reopening scenes..."), 2, true);
+	_load_open_scenes_from_config(config);
+
+	ep.step(TTR("Loading central editor layout..."), 3, true);
+	_load_central_editor_layout_from_config(config);
+
+	ep.step(TTR("Loading plugin window layout..."), 4, true);
+	editor_data.set_plugin_window_layout(config);
+
+	ep.step(TTR("Editor layout ready."), 5, true);
+>>>>>>> fe559082795c8e0f733d66dd8b99633121e2533a
 }
 
 void EditorNode::_save_central_editor_layout_to_config(Ref<ConfigFile> p_config_file) {
@@ -5249,14 +5296,18 @@ void EditorNode::_load_open_scenes_from_config(Ref<ConfigFile> p_layout) {
 
 	PackedStringArray scenes = p_layout->get_value(EDITOR_NODE_CONFIG_SECTION, "open_scenes");
 	for (int i = 0; i < scenes.size(); i++) {
-		load_scene(scenes[i]);
+		if (FileAccess::exists(scenes[i])) {
+			load_scene(scenes[i]);
+		}
 	}
 
 	if (p_layout->has_section_key(EDITOR_NODE_CONFIG_SECTION, "current_scene")) {
 		String current_scene = p_layout->get_value(EDITOR_NODE_CONFIG_SECTION, "current_scene");
-		int current_scene_idx = scenes.find(current_scene);
-		if (current_scene_idx >= 0) {
-			_set_current_scene(current_scene_idx);
+		for (int i = 0; i < editor_data.get_edited_scene_count(); i++) {
+			if (editor_data.get_scene_path(i) == current_scene) {
+				_set_current_scene(i);
+				break;
+			}
 		}
 	}
 
@@ -7278,9 +7329,9 @@ EditorNode::EditorNode() {
 	help_menu->add_separator();
 	if (!global_menu || !OS::get_singleton()->has_feature("macos")) {
 		// On macOS  "Quit" and "About" options are in the "app" menu.
-		help_menu->add_icon_shortcut(theme->get_icon(SNAME("Godot"), EditorStringName(EditorIcons)), ED_SHORTCUT_AND_COMMAND("editor/about", TTR("About Godot...")), HELP_ABOUT);
+		help_menu->add_icon_shortcut(theme->get_icon(SNAME("Godot"), EditorStringName(EditorIcons)), ED_SHORTCUT_AND_COMMAND("editor/about", TTR("About Blazium...")), HELP_ABOUT);
 	}
-	help_menu->add_icon_shortcut(theme->get_icon(SNAME("Heart"), EditorStringName(EditorIcons)), ED_SHORTCUT_AND_COMMAND("editor/support_development", TTR("Support Godot Development")), HELP_SUPPORT_GODOT_DEVELOPMENT);
+	help_menu->add_icon_shortcut(theme->get_icon(SNAME("Heart"), EditorStringName(EditorIcons)), ED_SHORTCUT_AND_COMMAND("editor/support_development", TTR("Join the Blazium Discord")), HELP_SUPPORT_GODOT_DEVELOPMENT);
 
 	// Spacer to center 2D / 3D / Script buttons.
 	Control *right_spacer = memnew(Control);

@@ -1534,9 +1534,15 @@ void fragment_shader(in SceneData scene_data) {
 			float en = lightmaps.data[ofs].exposure_normalization;
 
 			ambient_light += lm_light_l0 * en;
+<<<<<<< HEAD
 			ambient_light += lm_light_l1n1 * n.y * (lm_light_l0 * en * 4.0);
 			ambient_light += lm_light_l1_0 * n.z * (lm_light_l0 * en * 4.0);
 			ambient_light += lm_light_l1p1 * n.x * (lm_light_l0 * en * 4.0);
+=======
+			ambient_light += lm_light_l1n1 * n.y * en;
+			ambient_light += lm_light_l1_0 * n.z * en;
+			ambient_light += lm_light_l1p1 * n.x * en;
+>>>>>>> fe559082795c8e0f733d66dd8b99633121e2533a
 
 		} else {
 			if (sc_use_lightmap_bicubic_filter) {
